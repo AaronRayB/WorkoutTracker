@@ -2,9 +2,9 @@ require('dotenv').config();  // This loads environment variables from .env file
 
 const express = require('express');
 const connectDB = require('./config/db');
-const Workout = require('./models/workout'); // Import Workout model
-const workoutsRouter = require('./routes/workouts'); // Import workouts route
-const methodOverride = require('method-override'); // Import method-override
+const Workout = require('./models/workout'); //  Workout model
+const workoutsRouter = require('./routes/workouts'); //  workouts route
+const methodOverride = require('method-override'); //  method-override
 
 
 const app = express();
@@ -15,10 +15,10 @@ connectDB();
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
 
-// Serve static files (for stylesheets, images, etc.)
+// Serve static files (for my style.css)
 app.use(express.static('public'));
 
-// Middleware to parse the body of POST requests
+// Middleware to parse
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -44,7 +44,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 app.get('/public', async (req, res) => {
     try {
       const workouts = await Workout.find();  // Fetch all workouts from MongoDB
-      res.render('public', { workouts });  // Render 'public.ejs' and pass workouts to the view
+      res.render('public', { workouts });  // Render 'public.ejs'
     } catch (error) {
       res.status(500).send("Error fetching workouts");
     }
