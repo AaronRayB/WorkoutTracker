@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Workout = require('../models/workout'); // Import the Workout model
+const Workout = require('../models/workout'); 
 
 // GET all workouts
 router.get('/', async (req, res) => {
@@ -24,8 +24,8 @@ router.post('/', async (req, res) => {
     date: req.body.date,
     type: req.body.type,
     intensity: req.body.intensity,
-    muscleGroups: req.body.muscleGroups || [],  // Use empty array if undefined
-    equipmentUsed: req.body.equipmentUsed || [], // Use empty array if undefined
+    muscleGroups: req.body.muscleGroups || [],  //  empty array if undefined
+    equipmentUsed: req.body.equipmentUsed || [], //  empty array if undefined
     notes: req.body.notes || ''
   });
 
