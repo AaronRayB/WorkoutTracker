@@ -29,11 +29,11 @@ const WorkoutSchema = new mongoose.Schema({
     required: true
   },
   muscleGroups: {
-    type: [String], // An array of strings to hold multiple muscle groups (e.g., ["Chest", "Arms"])
+    type: [String], // An array of strings to hold multiple muscle groups
     default: []
   },
   equipmentUsed: {
-    type: [String], // An array of strings for equipment (e.g., ["Dumbbells", "Treadmill"])
+    type: [String], // An array of strings for equipment 
     default: []
   },
   notes: {
