@@ -6,10 +6,10 @@ const Workout = require('../models/workout');
 router.get('/', async (req, res) => {
     try {
       const workouts = await Workout.find(); // Fetch workouts from the database
-      console.log(workouts);  // Logs the workouts to ensure muscleGroups, equipmentUsed, and notes are included
+      console.log(workouts);  
       res.render('index', { workouts }); // Pass workouts to the view
     } catch (err) {
-      res.status(500).send("Error fetching workouts"); // Handle errors gracefully
+      res.status(500).send("Error fetching workouts"); // Handle errors 
     }
   });
   
