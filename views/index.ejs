@@ -1,0 +1,88 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Buddy Tracker</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<%- include('partials/header') %> <!-- Include the header partial -->
+
+<main>
+  <div class="container">
+    <h2>Welcome to Gym Buddy Tracker</h2>
+    <p>Track your workouts, monitor progress, and stay fit!</p>
+    
+    <!-- Form to Add New Workout -->
+    <h3>Add New Workout</h3>
+    <form action="/workouts" method="POST">
+      <input type="text" name="name" placeholder="Workout Name" required />
+      <input type="number" name="duration" placeholder="Duration (mins)" required />
+      <input type="number" name="caloriesBurned" placeholder="Calories Burned" required />
+      <input type="text" name="type" placeholder="Type (Cardio/Strength/etc.)" required />
+      <input type="text" name="intensity" placeholder="Intensity (Low/Medium/High)" required />
+      <input type="text" name="muscleGroups" placeholder="Muscle Groups (comma-separated)" />
+      <input type="text" name="equipmentUsed" placeholder="Equipment Used (comma-separated)" />
+      <textarea name="notes" placeholder="Notes"></textarea>
+      <button type="submit">Add Workout</button>
+    </form>
+    
+    <!-- Display workouts (if any) -->
+    <h3>Your Workouts</h3>
+    <div class="workout-list">
+      <ul>
+        <% workouts.forEach(workout => { %>
+          <li>
+            <%= workout.name %> - <%= workout.duration %> mins - <%= workout.caloriesBurned %> calories
+            <br>
+            <strong>Type:</strong> <%= workout.type %>
+            <br>
+            <strong>Intensity:</strong> <%= workout.intensity %>
+            <br>
+            <strong>Muscle Groups:</strong> <%= workout.muscleGroups.join(', ') %>
+            <br>
+            <strong>Equipment Used:</strong> <%= workout.equipmentUsed.join(', ') %>
+            <br>
+            <strong>Notes:</strong> <%= workout.notes %>
+            <br>
+            
+            <!-- Delete form with confirmation -->
+            <form action="/workouts/<%= workout._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirmDelete()">
+              <button type="submit">Delete</button>
+            </form>
+            
+            <!-- Edit form button -->
+            <button onclick="document.getElementById('edit-form-<%= workout._id %>').style.display='block'">Edit</button>
+
+            <!-- Update form for editing workout -->
+            <form id="edit-form-<%= workout._id %>" action="/workouts/<%= workout._id %>?_method=PUT" method="POST" style="display:none;">
+              <input type="text" name="name" value="<%= workout.name %>" required />
+              <input type="number" name="duration" value="<%= workout.duration %>" required />
+              <input type="number" name="caloriesBurned" value="<%= workout.caloriesBurned %>" required />
+              <input type="text" name="type" value="<%= workout.type %>" required />
+              <input type="text" name="intensity" value="<%= workout.intensity %>" required />
+              <input type="text" name="muscleGroups" value="<%= workout.muscleGroups.join(', ') %>" />
+              <input type="text" name="equipmentUsed" value="<%= workout.equipmentUsed.join(', ') %>" />
+              <textarea name="notes" placeholder="Notes"><%= workout.notes %></textarea>
+              <button type="submit">Update</button>
+            </form>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %> <!-- Include the footer partial -->
+
+<!-- JavaScript for delete confirmation -->
+<script>
+  function confirmDelete() {
+    return confirm("Are you sure you want to delete this workout?");
+  }
+</script>
+
+</body>
+</html>
