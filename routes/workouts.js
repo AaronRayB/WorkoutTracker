@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Workout = require('../models/workout'); 
+const Workout = require('../models/workout'); // Import the Workout model
 
 // GET all workouts
 router.get('/', async (req, res) => {
@@ -24,8 +24,8 @@ router.post('/', async (req, res) => {
     date: req.body.date,
     type: req.body.type,
     intensity: req.body.intensity,
-    muscleGroups: req.body.muscleGroups || [],  //  empty array if undefined
-    equipmentUsed: req.body.equipmentUsed || [], //  empty array if undefined
+    muscleGroups: req.body.muscleGroups || [],  // Use empty array if undefined
+    equipmentUsed: req.body.equipmentUsed || [], // Use empty array if undefined
     notes: req.body.notes || ''
   });
 
@@ -45,8 +45,8 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Workout not found' });
     }
 
-    await workout.deleteOne(); // Delete the workout document
-    // Alternatively: await Workout.findByIdAndDelete(req.params.id);
+    await workout.delete1(); // Delete the workout document
+    
 
     res.redirect('/workouts');  // Redirect back to the workouts page after deletion
   } catch (err) {
@@ -64,14 +64,16 @@ router.put('/:id', async (req, res) => {
     }
 
     // Update workout with new values from the form
-    workout.name = req.body.name;
-    workout.duration = req.body.duration;
-    workout.caloriesBurned = req.body.caloriesBurned;
-    workout.type = req.body.type;
-    workout.intensity = req.body.intensity;
-    workout.muscleGroups = req.body.muscleGroups.split(',').map(group => group.trim());  // Convert comma-separated string into an array
-    workout.equipmentUsed = req.body.equipmentUsed.split(',').map(equipment => equipment.trim());  // Convert comma-separated string into an array
-    workout.notes = req.body.notes;
+    // Update workout with new values from the form
+workout.name = req.body.name;
+workout.duration = req.body.duration;
+workout.caloriesBurned = req.body.caloriesBurned;
+workout.type = req.body.type;
+workout.intensity = req.body.intensity;
+workout.muscleGroups = req.body.muscleGroups;  // Assign directly
+workout.equipmentUsed = req.body.equipmentUsed;  // Assign directly
+workout.notes = req.body.notes;
+
 
     await workout.save();  // Save the updated workout
 
