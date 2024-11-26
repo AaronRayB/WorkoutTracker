@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<%- include('partials/header') %> 
+<%- include('partials/header') %> <!-- Include the header partial -->
 
 <main>
   <div class="container">
@@ -23,8 +23,28 @@
       <input type="number" name="caloriesBurned" placeholder="Calories Burned" required />
       <input type="text" name="type" placeholder="Type (Cardio/Strength/etc.)" required />
       <input type="text" name="intensity" placeholder="Intensity (Low/Medium/High)" required />
-      <input type="text" name="muscleGroups" placeholder="Muscle Groups (comma-separated)" />
-      <input type="text" name="equipmentUsed" placeholder="Equipment Used (comma-separated)" />
+      
+      <!-- Muscle Groups (multiple select) -->
+      <label for="muscleGroups">Muscle Groups:</label>
+      <select name="muscleGroups" id="muscleGroups" multiple>
+        <option value="Arms">Arms</option>
+        <option value="Legs">Legs</option>
+        <option value="Back">Back</option>
+        <option value="Chest">Chest</option>
+        <option value="Core">Core</option>
+        <!-- Add other options as needed -->
+      </select>
+      
+      <!-- Equipment Used (multiple select) -->
+      <label for="equipmentUsed">Equipment Used:</label>
+      <select name="equipmentUsed" id="equipmentUsed" multiple>
+        <option value="Dumbbells">Dumbbells</option>
+        <option value="Barbell">Barbell</option>
+        <option value="Treadmill">Treadmill</option>
+        <option value="Resistance Bands">Resistance Bands</option>
+        <!-- Add other options as needed -->
+      </select>
+
       <textarea name="notes" placeholder="Notes"></textarea>
       <button type="submit">Add Workout</button>
     </form>
@@ -49,7 +69,7 @@
             <br>
             
             <!-- Delete form with confirmation -->
-            <form action="/workouts/<%= workout._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirmDelete()">
+            <form action="/workouts/<%= workout._id %>?_method=DELETE" method="Delete" style="display:inline;" onsubmit="return confirmRemoval()">
               <button type="submit">Delete</button>
             </form>
             
@@ -57,14 +77,27 @@
             <button onclick="document.getElementById('edit-form-<%= workout._id %>').style.display='block'">Edit</button>
 
             <!-- Update form for editing workout -->
-            <form id="edit-form-<%= workout._id %>" action="/workouts/<%= workout._id %>?_method=PUT" method="POST" style="display:none;">
-              <input type="text" name="name" value="<%= workout.name %>" required />
+            <form id="edit-form-<%= workout._id %>" action="/workouts/<%= workout._id %>?_method=PUT" method="POST" style="display:block;">
+              <input type="text" name="name" placeholder="<%= workout.name %>" required />
               <input type="number" name="duration" value="<%= workout.duration %>" required />
               <input type="number" name="caloriesBurned" value="<%= workout.caloriesBurned %>" required />
               <input type="text" name="type" value="<%= workout.type %>" required />
               <input type="text" name="intensity" value="<%= workout.intensity %>" required />
-              <input type="text" name="muscleGroups" value="<%= workout.muscleGroups.join(', ') %>" />
-              <input type="text" name="equipmentUsed" value="<%= workout.equipmentUsed.join(', ') %>" />
+              
+              <!-- Editable Muscle Groups -->
+              <select name="muscleGroups" id="muscleGroups" multiple>
+                <% workout.muscleGroups.forEach(group => { %>
+                  <option value="<%= group %>" selected><%= group %></option>
+                <% }) %>
+              </select>
+              
+              <!-- Editable Equipment Used -->
+              <select name="equipmentUsed" id="equipmentUsed" multiple>
+                <% workout.equipmentUsed.forEach(equipment => { %>
+                  <option value="<%= equipment %>" selected><%= equipment %></option>
+                <% }) %>
+              </select>
+
               <textarea name="notes" placeholder="Notes"><%= workout.notes %></textarea>
               <button type="submit">Update</button>
             </form>
@@ -75,11 +108,11 @@
   </div>
 </main>
 
-<%- include('partials/footer') %> 
+<%- include('partials/footer') %> <!-- Include the footer partial -->
 
 <!-- JavaScript for delete confirmation -->
 <script>
-  function confirmDelete() {
+  function confirmRemoval() {
     return confirm("Are you sure you want to delete this workout?");
   }
 </script>
