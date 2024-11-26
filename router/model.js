@@ -5,13 +5,19 @@ const Workout = require('../models/workout');
 // GET all workouts
 router.get('/', async (req, res) => {
     try {
-      const workouts = await Workout.find(); // Fetch workouts from the database
-      console.log(workouts);  
-      res.render('index', { workouts }); // Pass workouts to the view
+      const workouts = await Workout.find();
+      console.log("Fetched workouts:");
+      workouts.forEach(workout => {
+        console.log("Workout name:", workout.name);
+        console.log("Workout duration:", workout.duration);
+        console.log("Calories burned:", workout.caloriesBurned);
+      });
+      res.render('index', { workouts });
     } catch (err) {
-      res.status(500).send("Error fetching workouts"); // Handle errors 
+      res.status(500).send("Error findinf workouts");
     }
   });
+  
   
 
 // POST a new workout
@@ -25,6 +31,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   await Workout.findByIdAndDelete(req.params.id);
   res.redirect('/workouts');
+  res.redirect('/');
 });
 
 // PUT (Update) a workout by ID
